@@ -1,0 +1,10 @@
+Package: com.noisyflake.ipadstatusbar
+Name: iPadStatusBar
+Depends: mobilesubstrate
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: Enables the iOS 12 iPad Statusbar on all devices
+Depiction: https://apt.noisyflake.com/depictions/index.html?id=com.noisyflake.ipadstatusbar
+Maintainer: NoisyFlake
+Author: NoisyFlake
+Section: Tweaks
