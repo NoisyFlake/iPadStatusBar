@@ -35,7 +35,7 @@
 }
 
 -(void)paypal {
-	[[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"https://www.paypal.me/noisyflake"]];
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"https://www.paypal.me/noisyflake"] options:@{} completionHandler:nil];
 }
 
 -(void)respring {
@@ -70,7 +70,7 @@
 		tweakName.textColor = [UIColor colorWithRed:0.3f green:0.3f blue:0.3f alpha:1.0f];
 		tweakName.shadowColor = [UIColor whiteColor];
 		tweakName.shadowOffset = CGSizeMake(0.0f, 1.0f);
-		tweakName.text = @"iPad Statusbar";
+		tweakName.text = @"iPad StatusBar";
 		tweakName.backgroundColor = [UIColor clearColor];
 		tweakName.textAlignment = NSTextAlignmentCenter;
 
@@ -82,7 +82,7 @@
 		version.textColor = [UIColor colorWithRed:0.3f green:0.3f blue:0.3f alpha:1.0f];
 		version.shadowColor = [UIColor whiteColor];
 		version.shadowOffset = CGSizeMake(0.0f, 1.0f);
-		version.text = @"Version 1.0";
+		version.text = @"Version 1.1";
 		version.backgroundColor = [UIColor clearColor];
 		version.textAlignment = NSTextAlignmentCenter;
 
