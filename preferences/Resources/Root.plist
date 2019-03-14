@@ -32,6 +32,7 @@
 		<dict>
 			<key>cell</key> 					<string>PSGroupCell</string>
 			<key>label</key> 					<string>Show Items</string>
+			<key>footerText</key> 				<string>Changes to Battery Icon require a respring.</string>
 		</dict>
 
 		<dict>
@@ -55,7 +56,15 @@
 			<key>default</key>					<true/>
 			<key>defaults</key>					<string>com.noisyflake.ipadstatusbar</string>
 			<key>key</key>						<string>showBattery</string>
-			<key>label</key>					<string>Battery</string>
+			<key>label</key>					<string>Battery Icon</string>
+			<key>PostNotification</key> 		<string>com.noisyflake.ipadstatusbar/prefsupdated</string>
+		</dict>
+		<dict>
+			<key>cell</key>						<string>PSSwitchCell</string>
+			<key>default</key>					<true/>
+			<key>defaults</key>					<string>com.noisyflake.ipadstatusbar</string>
+			<key>key</key>						<string>showBatteryPercent</string>
+			<key>label</key>					<string>Battery Percentage</string>
 			<key>PostNotification</key> 		<string>com.noisyflake.ipadstatusbar/prefsupdated</string>
 		</dict>
 		<dict>

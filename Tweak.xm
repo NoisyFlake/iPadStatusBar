@@ -3,7 +3,7 @@
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
 static BOOL enabled, extraPadding;
-static BOOL showDate, showDND, showAlarm, showLocationServices, showRotationLock, showCarrier, showLockIcon, showBattery, showAirplane, showVPN;
+static BOOL showDate, showDND, showAlarm, showLocationServices, showRotationLock, showCarrier, showLockIcon, showBattery, showBatteryPercent, showAirplane, showVPN;
 
 %hook UIStatusBar_Base
 + (Class)_implementationClass {
@@ -59,42 +59,51 @@ static BOOL showDate, showDND, showAlarm, showLocationServices, showRotationLock
     return %orig(index, NO);
   }
 
-  if ([item.description containsString:@"Service"] && !showCarrier) {
+  else if ([item.description containsString:@"Service"] && !showCarrier) {
     return %orig(index, NO);
   }
 
-  if ([item.description containsString:@"QuietMode"] && !showDND) {
+  else if ([item.description containsString:@"QuietMode"] && !showDND) {
     return %orig(index, NO);
   }
 
-  if ([item.description containsString:@"AirplaneMode"] && !showAirplane) {
+  else if ([item.description containsString:@"AirplaneMode"] && !showAirplane) {
     return %orig(index, NO);
   }
 
-  if ([item.description containsString:@"BatteryItem"] && !showBattery) {
+  else if ([item.description containsString:@"BatteryPercentItem"] && !showBatteryPercent) {
     return %orig(index, NO);
   }
 
-  if ([item.description containsString:@"Alarm"] && !showAlarm) {
+  else if ([item.description containsString:@"Alarm"] && !showAlarm) {
     return %orig(index, NO);
   }
 
-  if ([item.description containsString:@"Location"] && !showLocationServices) {
+  else if ([item.description containsString:@"Location"] && !showLocationServices) {
     return %orig(index, NO);
   }
 
-  if ([item.description containsString:@"RotationLock"] && !showRotationLock) {
+  else if ([item.description containsString:@"RotationLock"] && !showRotationLock) {
     return %orig(index, NO);
   }
 
-  if ([item.description containsString:@"VPN"] && !showVPN) {
+  else if ([item.description containsString:@"VPN"] && !showVPN) {
     return %orig(index, NO);
   }
 
-  if ([item.description containsString:@"BarLockItem"] && !showLockIcon) {
+  else if ([item.description containsString:@"BarLockItem"] && !showLockIcon) {
     return %orig(index, NO);
   }
 
+  return %orig;
+}
+%end
+
+%hook _UIBatteryView
+-(long long)iconSize {
+  if (!showBattery) {
+    return 0;
+  }
   return %orig;
 }
 %end
@@ -114,6 +123,7 @@ static void loadPrefs() {
     showCarrier = ( [prefs objectForKey:@"showCarrier"] ? [[prefs objectForKey:@"showCarrier"] boolValue] : YES );
     showLockIcon = ( [prefs objectForKey:@"showLockIcon"] ? [[prefs objectForKey:@"showLockIcon"] boolValue] : YES );
     showBattery = ( [prefs objectForKey:@"showBattery"] ? [[prefs objectForKey:@"showBattery"] boolValue] : YES );
+    showBatteryPercent = ( [prefs objectForKey:@"showBatteryPercent"] ? [[prefs objectForKey:@"showBatteryPercent"] boolValue] : YES );
     showAirplane = ( [prefs objectForKey:@"showAirplane"] ? [[prefs objectForKey:@"showAirplane"] boolValue] : YES );
     showVPN = ( [prefs objectForKey:@"showVPN"] ? [[prefs objectForKey:@"showVPN"] boolValue] : YES );
   }
@@ -127,6 +137,7 @@ static void update() {
   for (int i = 1; i <= 40; i++) {
       [stateAggregator updateStatusBarItem:i];
   }
+
 }
 
 static void initPrefs() {

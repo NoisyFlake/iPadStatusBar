@@ -82,7 +82,7 @@
 		version.textColor = [UIColor colorWithRed:0.3f green:0.3f blue:0.3f alpha:1.0f];
 		version.shadowColor = [UIColor whiteColor];
 		version.shadowOffset = CGSizeMake(0.0f, 1.0f);
-		version.text = @"Version 1.1";
+		version.text = @"Version 1.1.2";
 		version.backgroundColor = [UIColor clearColor];
 		version.textAlignment = NSTextAlignmentCenter;
 
