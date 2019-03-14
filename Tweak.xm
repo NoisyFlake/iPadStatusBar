@@ -3,7 +3,10 @@
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
 static BOOL enabled, extraPadding;
-static BOOL showDate, showDND, showAlarm, showLocationServices, showRotationLock, showCarrier, showLockIcon, showBattery, showBatteryPercent, showAirplane, showVPN;
+static BOOL showDate, showDND, showAlarm, showLocationServices, showRotationLock, showCarrier, showLockIcon, showBattery, showBatteryPercent, showAirplane, showVPN, showBreadcrumb;
+
+
+// ===== MODERN STATUS BAR ===== //
 
 %hook UIStatusBar_Base
 + (Class)_implementationClass {
@@ -48,11 +51,11 @@ static BOOL showDate, showDND, showAlarm, showLocationServices, showRotationLock
 }
 %end
 
+// ===== ITEM HIDING ===== //
+
 %hook SBStatusBarStateAggregator
 -(BOOL)_setItem:(int)index enabled:(BOOL)enableItem {
   UIStatusBarItem *item = [%c(UIStatusBarItem) itemWithType:index idiom:0];
-
-  // NSLog(@"iPadStatusBar: %@ has position %i", item.description, index);
 
   // Unfortunately the date icon doesn't have a name - might break in future iOS versions
   if (index == 1 && !showDate) {
@@ -108,6 +111,18 @@ static BOOL showDate, showDND, showAlarm, showLocationServices, showRotationLock
 }
 %end
 
+%hook _UIStatusBarData
+- (void)setBackNavigationEntry:(id)arg1 {
+  if (!showBreadcrumb) {
+    return;
+  } else {
+    %orig;
+  }
+}
+%end
+
+// ===== PREFERENCE HANDLING ===== //
+
 static void loadPrefs() {
   NSMutableDictionary *prefs = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.noisyflake.ipadstatusbar.plist"];
 
@@ -126,6 +141,7 @@ static void loadPrefs() {
     showBatteryPercent = ( [prefs objectForKey:@"showBatteryPercent"] ? [[prefs objectForKey:@"showBatteryPercent"] boolValue] : YES );
     showAirplane = ( [prefs objectForKey:@"showAirplane"] ? [[prefs objectForKey:@"showAirplane"] boolValue] : YES );
     showVPN = ( [prefs objectForKey:@"showVPN"] ? [[prefs objectForKey:@"showVPN"] boolValue] : YES );
+    showBreadcrumb = ( [prefs objectForKey:@"showBreadcrumb"] ? [[prefs objectForKey:@"showBreadcrumb"] boolValue] : YES );
   }
 
 }
