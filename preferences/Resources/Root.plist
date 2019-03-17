@@ -11,7 +11,7 @@
 
  		<dict>
 			<key>cell</key> 					<string>PSGroupCell</string>
-			<key>footerText</key> 				<string>Extra Padding requires iOS 12.1+</string>
+			<key>footerText</key> 				<string>Respring required. Extra Padding requires iOS 12.1+</string>
 		</dict>
 		<dict>
 			<key>cell</key>						<string>PSSwitchCell</string>
@@ -32,9 +32,17 @@
 		<dict>
 			<key>cell</key> 					<string>PSGroupCell</string>
 			<key>label</key> 					<string>Show Items</string>
-			<key>footerText</key> 				<string>Changes to Battery Icon require a respring.</string>
+			<key>footerText</key> 				<string>* Respring required</string>
 		</dict>
 
+		<dict>
+			<key>cell</key>						<string>PSSwitchCell</string>
+			<key>default</key>					<true/>
+			<key>defaults</key>					<string>com.noisyflake.ipadstatusbar</string>
+			<key>key</key>						<string>showActivity</string>
+			<key>label</key>					<string>Activity Indicator</string>
+			<key>PostNotification</key> 		<string>com.noisyflake.ipadstatusbar/prefsupdated</string>
+		</dict>
 		<dict>
 			<key>cell</key>						<string>PSSwitchCell</string>
 			<key>default</key>					<true/>
@@ -56,7 +64,7 @@
 			<key>default</key>					<true/>
 			<key>defaults</key>					<string>com.noisyflake.ipadstatusbar</string>
 			<key>key</key>						<string>showBattery</string>
-			<key>label</key>					<string>Battery Icon</string>
+			<key>label</key>					<string>Battery Icon *</string>
 			<key>PostNotification</key> 		<string>com.noisyflake.ipadstatusbar/prefsupdated</string>
 		</dict>
 		<dict>
@@ -71,8 +79,32 @@
 			<key>cell</key>						<string>PSSwitchCell</string>
 			<key>default</key>					<true/>
 			<key>defaults</key>					<string>com.noisyflake.ipadstatusbar</string>
+			<key>key</key>						<string>showBatteryPercentSign</string>
+			<key>label</key>					<string>Battery Percent Sign *</string>
+			<key>PostNotification</key> 		<string>com.noisyflake.ipadstatusbar/prefsupdated</string>
+		</dict>
+		<dict>
+			<key>cell</key>						<string>PSSwitchCell</string>
+			<key>default</key>					<true/>
+			<key>defaults</key>					<string>com.noisyflake.ipadstatusbar</string>
 			<key>key</key>						<string>showBreadcrumb</string>
 			<key>label</key>					<string>Breadcrumb</string>
+			<key>PostNotification</key> 		<string>com.noisyflake.ipadstatusbar/prefsupdated</string>
+		</dict>
+		<dict>
+			<key>cell</key>						<string>PSSwitchCell</string>
+			<key>default</key>					<true/>
+			<key>defaults</key>					<string>com.noisyflake.ipadstatusbar</string>
+			<key>key</key>						<string>showCarrier</string>
+			<key>label</key>					<string>Carrier</string>
+			<key>PostNotification</key> 		<string>com.noisyflake.ipadstatusbar/prefsupdated</string>
+		</dict>
+		<dict>
+			<key>cell</key>						<string>PSSwitchCell</string>
+			<key>default</key>					<true/>
+			<key>defaults</key>					<string>com.noisyflake.ipadstatusbar</string>
+			<key>key</key>						<string>showData</string>
+			<key>label</key>					<string>Data Network *</string>
 			<key>PostNotification</key> 		<string>com.noisyflake.ipadstatusbar/prefsupdated</string>
 		</dict>
 		<dict>
@@ -119,8 +151,16 @@
 			<key>cell</key>						<string>PSSwitchCell</string>
 			<key>default</key>					<true/>
 			<key>defaults</key>					<string>com.noisyflake.ipadstatusbar</string>
-			<key>key</key>						<string>showCarrier</string>
-			<key>label</key>					<string>Signal, Data &amp; Carrier</string>
+			<key>key</key>						<string>showSignal</string>
+			<key>label</key>					<string>Signal Strength *</string>
+			<key>PostNotification</key> 		<string>com.noisyflake.ipadstatusbar/prefsupdated</string>
+		</dict>
+		<dict>
+			<key>cell</key>						<string>PSSwitchCell</string>
+			<key>default</key>					<true/>
+			<key>defaults</key>					<string>com.noisyflake.ipadstatusbar</string>
+			<key>key</key>						<string>showTime</string>
+			<key>label</key>					<string>Time *</string>
 			<key>PostNotification</key> 		<string>com.noisyflake.ipadstatusbar/prefsupdated</string>
 		</dict>
 		<dict>
@@ -129,6 +169,14 @@
 			<key>defaults</key>					<string>com.noisyflake.ipadstatusbar</string>
 			<key>key</key>						<string>showVPN</string>
 			<key>label</key>					<string>VPN</string>
+			<key>PostNotification</key> 		<string>com.noisyflake.ipadstatusbar/prefsupdated</string>
+		</dict>
+		<dict>
+			<key>cell</key>						<string>PSSwitchCell</string>
+			<key>default</key>					<true/>
+			<key>defaults</key>					<string>com.noisyflake.ipadstatusbar</string>
+			<key>key</key>						<string>showWifi</string>
+			<key>label</key>					<string>WiFi *</string>
 			<key>PostNotification</key> 		<string>com.noisyflake.ipadstatusbar/prefsupdated</string>
 		</dict>
 

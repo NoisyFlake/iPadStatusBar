@@ -67,10 +67,8 @@
 		tweakName.numberOfLines = 1;
 		tweakName.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
 		tweakName.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:40.0f];
-		tweakName.textColor = [UIColor colorWithRed:0.3f green:0.3f blue:0.3f alpha:1.0f];
-		tweakName.shadowColor = [UIColor whiteColor];
-		tweakName.shadowOffset = CGSizeMake(0.0f, 1.0f);
-		tweakName.text = @"iPad StatusBar";
+		tweakName.textColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
+		tweakName.text = @"iPadStatusBar";
 		tweakName.backgroundColor = [UIColor clearColor];
 		tweakName.textAlignment = NSTextAlignmentCenter;
 
@@ -82,7 +80,7 @@
 		version.textColor = [UIColor colorWithRed:0.3f green:0.3f blue:0.3f alpha:1.0f];
 		version.shadowColor = [UIColor whiteColor];
 		version.shadowOffset = CGSizeMake(0.0f, 1.0f);
-		version.text = @"Version 1.1.2";
+		version.text = @"Version 1.1.4";
 		version.backgroundColor = [UIColor clearColor];
 		version.textAlignment = NSTextAlignmentCenter;
 

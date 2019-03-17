@@ -3,7 +3,9 @@
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
 static BOOL enabled, extraPadding;
-static BOOL showDate, showDND, showAlarm, showLocationServices, showRotationLock, showCarrier, showLockIcon, showBattery, showBatteryPercent, showAirplane, showVPN, showBreadcrumb;
+static BOOL showDate, showDND, showAlarm, showLocationServices, showRotationLock, showSignal, showLockIcon,
+showBattery, showBatteryPercent, showAirplane, showVPN, showBreadcrumb, showActivity, showTime, showCarrier,
+showBatteryPercentSign, showWifi, showData;
 
 
 // ===== MODERN STATUS BAR ===== //
@@ -55,14 +57,12 @@ static BOOL showDate, showDND, showAlarm, showLocationServices, showRotationLock
 
 %hook SBStatusBarStateAggregator
 -(BOOL)_setItem:(int)index enabled:(BOOL)enableItem {
+  if (!enabled) return %orig;
+
   UIStatusBarItem *item = [%c(UIStatusBarItem) itemWithType:index idiom:0];
 
   // Unfortunately the date icon doesn't have a name - might break in future iOS versions
   if (index == 1 && !showDate) {
-    return %orig(index, NO);
-  }
-
-  else if ([item.description containsString:@"Service"] && !showCarrier) {
     return %orig(index, NO);
   }
 
@@ -98,13 +98,17 @@ static BOOL showDate, showDND, showAlarm, showLocationServices, showRotationLock
     return %orig(index, NO);
   }
 
+  else if ([item.description containsString:@"ActivityItem"] && !showActivity) {
+    return %orig(index, NO);
+  }
+
   return %orig;
 }
 %end
 
 %hook _UIBatteryView
 -(long long)iconSize {
-  if (!showBattery) {
+  if (enabled && !showBattery) {
     return 0;
   }
   return %orig;
@@ -113,10 +117,85 @@ static BOOL showDate, showDND, showAlarm, showLocationServices, showRotationLock
 
 %hook _UIStatusBarData
 - (void)setBackNavigationEntry:(id)arg1 {
-  if (!showBreadcrumb) {
+  if (enabled && !showBreadcrumb) {
     return;
   } else {
     %orig;
+  }
+}
+%end
+
+%hook _UIStatusBarCellularItem
+-(_UIStatusBarStringView *)serviceNameView {
+  _UIStatusBarStringView *orig = %orig;
+  orig.isCarrier = YES;
+  return orig;
+}
+-(_UIStatusBarStringView *)networkTypeView {
+  _UIStatusBarStringView *orig = %orig;
+  orig.isData = YES;
+  return orig;
+}
+%end
+
+%hook _UIStatusBarStringView
+%property (nonatomic, assign) BOOL isCarrier;
+%property (nonatomic, assign) BOOL isData;
+-(void)setText:(id)arg1 {
+  %orig;
+
+  if (!enabled) return;
+
+  if (!showTime && [arg1 containsString:@":"]) {
+    %orig(@"");
+  }
+
+  if (!showCarrier && self.isCarrier) {
+    %orig(@"");
+  }
+
+  if (!showBatteryPercentSign && [arg1 containsString:@"%"]) {
+    NSString* percentageOnly = [arg1 substringToIndex:[arg1 length] - 1];
+    %orig(percentageOnly);
+  }
+
+  if (!showData && self.isData) {
+    %orig(@"");
+  }
+
+}
+%end
+
+%hook _UIStatusBarCellularSignalView
+-(double)_heightForBarAtIndex:(long long)arg1 mode:(long long)arg2 {
+  if (enabled && !showSignal) {
+      return 0;
+    } else {
+      return %orig;
+    }
+}
+%end
+
+%hook _UIStatusBarWifiSignalView
++(double)_totalWidthForIconSize:(long long)arg1 {
+  if (enabled && !showWifi) {
+    return 0;
+  } else {
+    return %orig;
+  }
+}
++(double)_interspaceForIconSize:(long long)arg1 {
+  if (enabled && !showWifi) {
+    return 0;
+  } else {
+    return %orig;
+  }
+}
++(double)_barThicknessAtIndex:(unsigned long long)arg1 iconSize:(long long)arg2 {
+  if (enabled && !showWifi) {
+    return 0;
+  } else {
+    return %orig;
   }
 }
 %end
@@ -135,13 +214,19 @@ static void loadPrefs() {
     showAlarm = ( [prefs objectForKey:@"showAlarm"] ? [[prefs objectForKey:@"showAlarm"] boolValue] : YES );
     showLocationServices = ( [prefs objectForKey:@"showLocationServices"] ? [[prefs objectForKey:@"showLocationServices"] boolValue] : YES );
     showRotationLock = ( [prefs objectForKey:@"showRotationLock"] ? [[prefs objectForKey:@"showRotationLock"] boolValue] : YES );
-    showCarrier = ( [prefs objectForKey:@"showCarrier"] ? [[prefs objectForKey:@"showCarrier"] boolValue] : YES );
+    showSignal = ( [prefs objectForKey:@"showSignal"] ? [[prefs objectForKey:@"showSignal"] boolValue] : YES );
     showLockIcon = ( [prefs objectForKey:@"showLockIcon"] ? [[prefs objectForKey:@"showLockIcon"] boolValue] : YES );
     showBattery = ( [prefs objectForKey:@"showBattery"] ? [[prefs objectForKey:@"showBattery"] boolValue] : YES );
     showBatteryPercent = ( [prefs objectForKey:@"showBatteryPercent"] ? [[prefs objectForKey:@"showBatteryPercent"] boolValue] : YES );
     showAirplane = ( [prefs objectForKey:@"showAirplane"] ? [[prefs objectForKey:@"showAirplane"] boolValue] : YES );
     showVPN = ( [prefs objectForKey:@"showVPN"] ? [[prefs objectForKey:@"showVPN"] boolValue] : YES );
     showBreadcrumb = ( [prefs objectForKey:@"showBreadcrumb"] ? [[prefs objectForKey:@"showBreadcrumb"] boolValue] : YES );
+    showActivity = ( [prefs objectForKey:@"showActivity"] ? [[prefs objectForKey:@"showActivity"] boolValue] : YES );
+    showTime = ( [prefs objectForKey:@"showTime"] ? [[prefs objectForKey:@"showTime"] boolValue] : YES );
+    showCarrier = ( [prefs objectForKey:@"showCarrier"] ? [[prefs objectForKey:@"showCarrier"] boolValue] : YES );
+    showBatteryPercentSign = ( [prefs objectForKey:@"showBatteryPercentSign"] ? [[prefs objectForKey:@"showBatteryPercentSign"] boolValue] : YES );
+    showWifi = ( [prefs objectForKey:@"showWifi"] ? [[prefs objectForKey:@"showWifi"] boolValue] : YES );
+    showData = ( [prefs objectForKey:@"showData"] ? [[prefs objectForKey:@"showData"] boolValue] : YES );
   }
 
 }
