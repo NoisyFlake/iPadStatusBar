@@ -47,13 +47,13 @@
 @end
 
 
-@interface BannerCell : PSTableCell {
+@interface iPadStatusBarLogo : PSTableCell {
 	UILabel *tweakName;
 	UILabel *version;
 }
 @end
 
-@implementation BannerCell
+@implementation iPadStatusBarLogo
 
 - (id)initWithSpecifier:(PSSpecifier *)specifier
 {
