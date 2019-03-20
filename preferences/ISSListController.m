@@ -55,7 +55,7 @@
 		CGFloat width = 320;
 		CGFloat height = 70;
 
-		CGRect backgroundFrame = CGRectMake(0, -35, width, height);
+		CGRect backgroundFrame = CGRectMake(-50, -35, width+50, height);
 		background = [[UILabel alloc] initWithFrame:backgroundFrame];
 		[background layoutIfNeeded];
 		background.backgroundColor = [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0];
