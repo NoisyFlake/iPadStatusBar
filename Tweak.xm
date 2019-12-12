@@ -107,9 +107,15 @@ showBatteryPercentSign, showWifi, showData;
 %end
 
 %hook _UIBatteryView
--(long long)iconSize {
++(CGSize)_batterySizeForIconSize:(long long)arg1{
   if (enabled && !showBattery) {
-    return 0;
+     return CGSizeMake(0, 0);
+  }
+  return %orig;
+}
++(CGSize)_pinSizeForIconSize:(long long)arg1{
+  if (enabled && !showBattery) {
+     return CGSizeMake(0, 0);
   }
   return %orig;
 }
